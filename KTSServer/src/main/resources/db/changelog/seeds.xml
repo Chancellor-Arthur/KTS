@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <property name="uuid" value="gen_random_uuid()" dbms="postgresql"/>
+    <property name="now" value="now()" dbms="postgresql"/>
+
+    <changeSet id="1701524804997-8" author="Svitkin Arthur (generated)">
+        <insert tableName="users">
+            <column name="id" valueComputed="${uuid}"/>
+            <column name="username" value="admin"/>
+            <!-- password: admin -->
+            <column name="password" value="$2a$10$L/qtyUi5iGnWVbA2fOXOHuIDnmJziRRtOz8lagMY/d31Y2l1c/3xS"/>
+            <column name="created_at" value="${now}"/>
+            <column name="updated_at" value="${now}"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" valueComputed="${uuid}"/>
+            <column name="username" value="user"/>
+            <!-- password: admin -->
+            <column name="password" value="$2a$10$L/qtyUi5iGnWVbA2fOXOHuIDnmJziRRtOz8lagMY/d31Y2l1c/3xS"/>
+            <column name="created_at" value="${now}"/>
+            <column name="updated_at" value="${now}"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

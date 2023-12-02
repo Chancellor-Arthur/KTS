@@ -1,13 +1,15 @@
 package ru.dubna.kts.config.db;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.OffsetDateTime;
 
 @MappedSuperclass
 @Getter
@@ -15,9 +17,9 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public abstract class BaseEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "id")
-	protected int id;
+	protected UUID id;
 
 	@CreatedDate
 	@Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = false, updatable = false)

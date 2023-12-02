@@ -1,12 +1,13 @@
 package ru.dubna.kts.models.auth.validators;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
-import ru.dubna.todolist.exceptions.specific.UnauthorizedException;
-import ru.dubna.todolist.models.auth.dtos.CredentialsDto;
+
+import lombok.RequiredArgsConstructor;
+import ru.dubna.kts.exceptions.specific.UnauthorizedException;
+import ru.dubna.kts.models.auth.dtos.CredentialsDto;
 
 @Component
 @RequiredArgsConstructor

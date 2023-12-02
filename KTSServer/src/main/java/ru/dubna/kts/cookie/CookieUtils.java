@@ -1,27 +1,31 @@
-package ru.dubna.kts.utils;
+package ru.dubna.kts.cookie;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import ru.dubna.todolist.models.auth.dtos.CookieInfoDto;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Objects;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
+
 @Component
 public class CookieUtils {
 	@Value("${auth.cookie.hmac-key}")
-	private String secretKey;
+	private static String secretKey;
 
 	public String createToken(CookieInfoDto cookieInfo) {
-		return cookieInfo.getId() + "&" + cookieInfo.getUsername() + "&" + calculateHmac(cookieInfo);
+		Token token = new TokenBuilder();
+		return token.addUserId(cookieInfo.getId()).addUsername(cookieInfo.getUsername()).addSignature(cookieInfo)
+				.build();
 	}
 
-	public String calculateHmac(CookieInfoDto cookieInfo) {
+	public static String calculateHmac(CookieInfoDto cookieInfo) {
 		byte[] secretKeyBytes = Objects.requireNonNull(secretKey).getBytes(StandardCharsets.UTF_8);
 		byte[] valueBytes = (cookieInfo.getId() + "&" + cookieInfo.getUsername()).getBytes(StandardCharsets.UTF_8);
 

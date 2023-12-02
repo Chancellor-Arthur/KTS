@@ -1,16 +1,15 @@
 package ru.dubna.kts.models.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import java.util.List;
+import java.util.UUID;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.dubna.todolist.config.db.BaseEntity;
-import ru.dubna.todolist.models.tasks.Task;
-
-import java.util.List;
+import ru.dubna.kts.config.db.BaseEntity;
+import ru.dubna.kts.models.answer.Answer;
+import ru.dubna.kts.models.userAnswer.UserAnswer;
 
 @Entity
 @Table(name = "users")
@@ -24,10 +23,10 @@ public class User extends BaseEntity {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany(mappedBy = "user")
-	private List<Task> tasks;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<UserAnswer> answers;
 
-	public User(int id) {
+	public User(UUID id) {
 		this.id = id;
 	}
 

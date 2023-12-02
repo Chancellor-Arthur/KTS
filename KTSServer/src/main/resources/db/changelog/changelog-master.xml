@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1701524804997-1" author="Svitkin Arthur (generated)">
+        <createTable tableName="answers">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_answers"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="answer" type="VARCHAR(255)"/>
+            <column name="is_correct" type="BOOLEAN"/>
+            <column name="question_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1701524804997-2" author="Svitkin Arthur (generated)">
+        <createTable tableName="questions">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_questions"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="question" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1701524804997-3" author="Svitkin Arthur (generated)">
+        <createTable tableName="user_answers">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_answers"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="answer_id" type="UUID"/>
+            <column name="user_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1701524804997-4" author="Svitkin Arthur (generated)">
+        <createTable tableName="users">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1701524804997-5" author="Svitkin Arthur (generated)">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="answers"
+                                 constraintName="FK_ANSWERS_ON_QUESTION" referencedColumnNames="id"
+                                 referencedTableName="questions"/>
+    </changeSet>
+    <changeSet id="1701524804997-6" author="Svitkin Arthur (generated)">
+        <addForeignKeyConstraint baseColumnNames="answer_id" baseTableName="user_answers"
+                                 constraintName="FK_USER_ANSWERS_ON_ANSWER" referencedColumnNames="id"
+                                 referencedTableName="answers"/>
+    </changeSet>
+    <changeSet id="1701524804997-7" author="Svitkin Arthur (generated)">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_answers"
+                                 constraintName="FK_USER_ANSWERS_ON_USER" referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+    <include file="seeds.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

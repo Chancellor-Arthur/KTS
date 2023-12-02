@@ -1,6 +1,10 @@
 package ru.dubna.kts.models.user;
 
-import lombok.RequiredArgsConstructor;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,12 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.dubna.todolist.exceptions.specific.NotFoundException;
-import ru.dubna.todolist.models.auth.dtos.UserInputDto;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import ru.dubna.kts.exceptions.specific.NotFoundException;
+import ru.dubna.kts.models.auth.dtos.CredentialsDto;
 
 @Service
 @Transactional
@@ -22,8 +24,8 @@ public class UserService implements UserDetailsService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public User create(UserInputDto userInputDto) {
-		User user = new User(userInputDto.getUsername(), passwordEncoder.encode(userInputDto.getPassword()));
+	public User create(CredentialsDto credentialsDto) {
+		User user = new User(credentialsDto.getUsername(), passwordEncoder.encode(credentialsDto.getPassword()));
 		return userRepository.save(user);
 	}
 
@@ -31,7 +33,7 @@ public class UserService implements UserDetailsService {
 		return userRepository.findByUsername(username);
 	}
 
-	public Optional<User> findById(int id) {
+	public Optional<User> findById(UUID id) {
 		return userRepository.findById(id);
 	}
 
@@ -52,7 +54,7 @@ public class UserService implements UserDetailsService {
 				() -> new NotFoundException(String.format("Пользователь с именем: '%s' не найден", username)));
 	}
 
-	public User getById(int id) {
+	public User getById(UUID id) {
 		return findById(id).orElseThrow(
 				() -> new NotFoundException(String.format("Пользователь с идентификатором: '%d' не найден", id)));
 	}

@@ -1,5 +1,13 @@
 package ru.dubna.kts.models.auth;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,29 +17,30 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import ru.dubna.todolist.config.security.CookieAuthenticationFilter;
-import ru.dubna.todolist.exceptions.dtos.BadRequestExceptionPayload;
-import ru.dubna.todolist.exceptions.dtos.DefaultExceptionPayload;
-import ru.dubna.todolist.models.auth.dtos.CookieInfoDto;
-import ru.dubna.todolist.models.auth.dtos.CredentialsDto;
-import ru.dubna.todolist.models.auth.dtos.UserInputDto;
-import ru.dubna.todolist.models.user.dtos.UserOutputDto;
-import ru.dubna.todolist.utils.CookieUtils;
-
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+import ru.dubna.kts.config.security.CookieAuthenticationFilter;
+import ru.dubna.kts.cookie.CookieUtils;
+import ru.dubna.kts.exceptions.dtos.BadRequestExceptionPayload;
+import ru.dubna.kts.exceptions.dtos.DefaultExceptionPayload;
+import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
+import ru.dubna.kts.models.auth.dtos.CredentialsDto;
+import ru.dubna.kts.models.auth.service.AuthService;
+import ru.dubna.kts.models.user.dtos.UserOutputDto;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-@Tag(name = "Авторизация/Регистрация", description = "Позволяет авторизоваться/зарегистрироваться пользователю в системе")
+@Tag(name = "Авторизация/Регистрация")
 @ApiResponse(responseCode = "400", content = {
 		@Content(schema = @Schema(implementation = BadRequestExceptionPayload.class)) })
 public class AuthController {
 	private final AuthService authService;
 	private final CookieUtils cookieUtils;
+
+	@Autowired
+	public AuthController(CookieUtils cookieUtils, @Qualifier("proxyAuthService") AuthService authService) {
+		this.cookieUtils = cookieUtils;
+		this.authService = authService;
+	}
 
 	private void createCookie(CookieInfoDto cookieInfo, HttpServletResponse servletResponse) {
 		Cookie authCookie = new Cookie(CookieAuthenticationFilter.cookieName, cookieUtils.createToken(cookieInfo));
@@ -44,7 +53,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	@Operation(summary = "Авторизация пользователя", description = "Позволяет пользователю авторизоваться в системе")
+	@Operation(summary = "Авторизация пользователя")
 	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = CookieInfoDto.class)) })
 	@ApiResponse(responseCode = "401", content = {
 			@Content(schema = @Schema(implementation = DefaultExceptionPayload.class)) })
@@ -56,9 +65,9 @@ public class AuthController {
 
 	@PostMapping("/registration")
 	@ResponseStatus(HttpStatus.CREATED)
-	@Operation(summary = "Регистрация пользователя", description = "Позволяет пользователю зарегистрироваться в системе")
+	@Operation(summary = "Регистрация пользователя")
 	@ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = UserOutputDto.class)) })
-	public UserOutputDto signUp(@Valid @RequestBody UserInputDto userInputDto) {
-		return authService.signUp(userInputDto);
+	public UserOutputDto signUp(@Valid @RequestBody CredentialsDto credentialsDto) {
+		return authService.signUp(credentialsDto);
 	}
 }

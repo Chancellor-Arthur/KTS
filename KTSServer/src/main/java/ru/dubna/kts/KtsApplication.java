@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class KtsApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(KtsApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(KtsApplication.class, args);
+	}
 
 }
