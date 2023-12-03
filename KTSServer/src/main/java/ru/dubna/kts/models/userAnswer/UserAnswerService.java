@@ -25,6 +25,10 @@ public class UserAnswerService {
 		return userAnswerRepository.saveAll(userAnswers);
 	}
 
+	public void deleteAll() {
+		userAnswerRepository.deleteAll();
+	}
+
 	public Optional<UserAnswer> find(UUID id) {
 		return userAnswerRepository.findById(id);
 	}

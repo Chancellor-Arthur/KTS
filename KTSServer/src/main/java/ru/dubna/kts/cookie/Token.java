@@ -1,8 +1,8 @@
 package ru.dubna.kts.cookie;
 
-import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
-
 import java.util.UUID;
+
+import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
 
 public interface Token {
 	Token addUserId(UUID userId);

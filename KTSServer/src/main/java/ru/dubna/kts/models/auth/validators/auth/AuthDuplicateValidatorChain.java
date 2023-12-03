@@ -1,4 +1,4 @@
-package ru.dubna.kts.models.auth.validators;
+package ru.dubna.kts.models.auth.validators.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -8,10 +8,11 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import ru.dubna.kts.exceptions.specific.UnauthorizedException;
 import ru.dubna.kts.models.auth.dtos.CredentialsDto;
+import ru.dubna.kts.models.auth.validators.ValidatorChain;
 
 @Component
 @RequiredArgsConstructor
-public class AuthValidator implements Validator {
+public class AuthDuplicateValidatorChain extends ValidatorChain {
 	private final AuthenticationManager authenticationManager;
 
 	@Override
@@ -24,5 +25,8 @@ public class AuthValidator implements Validator {
 		} catch (BadCredentialsException exception) {
 			throw new UnauthorizedException("Неправильный логин или пароль");
 		}
+
+		if (next != null)
+			next.validate(target);
 	}
 }

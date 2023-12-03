@@ -1,15 +1,19 @@
 package ru.dubna.kts.cookie;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
-
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
+
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
+@Component
 public class TokenBuilder implements Token {
 	private StringBuilder token = new StringBuilder();
+	private final CookieUtils cookieUtils;
 
 	@Override
 	public Token addUserId(UUID userId) {
@@ -25,7 +29,7 @@ public class TokenBuilder implements Token {
 
 	@Override
 	public Token addSignature(CookieInfoDto cookieInfoDto) {
-		token.append(CookieUtils.calculateHmac(cookieInfoDto)).append("&");
+		token.append(cookieUtils.calculateHmac(cookieInfoDto)).append("&");
 		return this;
 	}
 

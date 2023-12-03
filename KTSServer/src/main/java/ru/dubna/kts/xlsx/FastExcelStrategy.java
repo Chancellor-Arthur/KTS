@@ -33,6 +33,8 @@ public class FastExcelStrategy implements ExcelStrategy {
 
 	@Override
 	public List<Question> readAndSave() throws IOException {
+		questionService.deleteAll();
+
 		FileInputStream file = new FileInputStream(fileLocation);
 		ReadableWorkbook workbook = new ReadableWorkbook(file);
 		Sheet sheet = workbook.getFirstSheet();

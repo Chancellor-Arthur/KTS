@@ -17,15 +17,9 @@ import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
 @Component
 public class CookieUtils {
 	@Value("${auth.cookie.hmac-key}")
-	private static String secretKey;
+	private String secretKey;
 
-	public String createToken(CookieInfoDto cookieInfo) {
-		Token token = new TokenBuilder();
-		return token.addUserId(cookieInfo.getId()).addUsername(cookieInfo.getUsername()).addSignature(cookieInfo)
-				.build();
-	}
-
-	public static String calculateHmac(CookieInfoDto cookieInfo) {
+	public String calculateHmac(CookieInfoDto cookieInfo) {
 		byte[] secretKeyBytes = Objects.requireNonNull(secretKey).getBytes(StandardCharsets.UTF_8);
 		byte[] valueBytes = (cookieInfo.getId() + "&" + cookieInfo.getUsername()).getBytes(StandardCharsets.UTF_8);
 

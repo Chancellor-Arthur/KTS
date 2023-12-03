@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import ru.dubna.kts.exceptions.specific.NotFoundException;
 import ru.dubna.kts.models.answer.AnswerService;
 import ru.dubna.kts.models.question.dtos.QuestionInputDto;
+import ru.dubna.kts.models.userAnswer.UserAnswerService;
 
 @Service
 @Transactional
@@ -18,6 +19,7 @@ import ru.dubna.kts.models.question.dtos.QuestionInputDto;
 public class QuestionService {
 	private final QuestionRepository questionRepository;
 	private final AnswerService answerService;
+	private final UserAnswerService userAnswerService;
 
 	public Question create(QuestionInputDto questionInputDto) {
 		Question question = new Question(questionInputDto.getQuestion());
@@ -31,6 +33,7 @@ public class QuestionService {
 	}
 
 	public void deleteAll() {
+		userAnswerService.deleteAll();
 		answerService.deleteAll();
 		questionRepository.deleteAll();
 	}

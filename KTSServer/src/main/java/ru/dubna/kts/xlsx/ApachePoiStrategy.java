@@ -31,6 +31,8 @@ public class ApachePoiStrategy implements ExcelStrategy {
 
 	@Override
 	public List<Question> readAndSave() throws IOException {
+		questionService.deleteAll();
+
 		FileInputStream file = new FileInputStream(fileLocation);
 		Workbook workbook = new XSSFWorkbook(file);
 
@@ -39,7 +41,7 @@ public class ApachePoiStrategy implements ExcelStrategy {
 		List<Question> questions = new ArrayList<>();
 
 		int startRow = 1;
-		int endRow = 6;
+		int endRow = 31;
 		for (int i = startRow; i < endRow; i++) {
 			Row row = sheet.getRow(i);
 

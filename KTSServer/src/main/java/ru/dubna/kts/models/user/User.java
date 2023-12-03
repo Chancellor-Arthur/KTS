@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.dubna.kts.config.db.BaseEntity;
-import ru.dubna.kts.models.answer.Answer;
 import ru.dubna.kts.models.userAnswer.UserAnswer;
 
 @Entity

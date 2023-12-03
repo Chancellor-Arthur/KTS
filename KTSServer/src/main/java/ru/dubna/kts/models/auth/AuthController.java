@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ru.dubna.kts.config.security.CookieAuthenticationFilter;
-import ru.dubna.kts.cookie.CookieUtils;
+import ru.dubna.kts.cookie.TokenCreator;
 import ru.dubna.kts.exceptions.dtos.BadRequestExceptionPayload;
 import ru.dubna.kts.exceptions.dtos.DefaultExceptionPayload;
 import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
@@ -34,16 +34,16 @@ import ru.dubna.kts.models.user.dtos.UserOutputDto;
 		@Content(schema = @Schema(implementation = BadRequestExceptionPayload.class)) })
 public class AuthController {
 	private final AuthService authService;
-	private final CookieUtils cookieUtils;
+	private final TokenCreator tokenCreator;
 
 	@Autowired
-	public AuthController(CookieUtils cookieUtils, @Qualifier("proxyAuthService") AuthService authService) {
-		this.cookieUtils = cookieUtils;
+	public AuthController(TokenCreator tokenCreator, @Qualifier("proxyAuthService") AuthService authService) {
+		this.tokenCreator = tokenCreator;
 		this.authService = authService;
 	}
 
 	private void createCookie(CookieInfoDto cookieInfo, HttpServletResponse servletResponse) {
-		Cookie authCookie = new Cookie(CookieAuthenticationFilter.cookieName, cookieUtils.createToken(cookieInfo));
+		Cookie authCookie = new Cookie(CookieAuthenticationFilter.cookieName, tokenCreator.createToken(cookieInfo));
 		authCookie.setHttpOnly(true);
 		authCookie.setSecure(true);
 		authCookie.setMaxAge((int) Duration.of(1, ChronoUnit.DAYS).toSeconds());
