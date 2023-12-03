@@ -1,6 +1,6 @@
 ### Database config ###
 spring.datasource.driverClassName=org.postgresql.Driver
-spring.datasource.url=jdbc:postgresql://localhost:5432/kts
+spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/kts
 spring.datasource.username=postgres
 spring.datasource.password=postgres
 ### Liquibase config ###
