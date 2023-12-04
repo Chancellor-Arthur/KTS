@@ -12,7 +12,7 @@ import ru.dubna.kts.models.auth.validators.ValidatorChain;
 
 @Component
 @RequiredArgsConstructor
-public class AuthDuplicateValidatorChain extends ValidatorChain {
+public class AuthVerifyValidatorChain extends ValidatorChain {
 	private final AuthenticationManager authenticationManager;
 
 	@Override

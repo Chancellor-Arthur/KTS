@@ -19,5 +19,6 @@ public class RegistrationValidationChain {
 		LogValidatorChain logValidator = new LogValidatorChain();
 
 		credentialsLengthValidator.setNext(duplicateValidator).setNext(logValidator);
+		credentialsLengthValidator.validate(target);
 	}
 }
