@@ -24,4 +24,4 @@ logging.level.org.hibernate.SQL=INFO
 ### Security params ###
 auth.cookie.hmac-key=eqwqweqweh4h3u458843786jlkgjg3v84v843fh733f83h8f83f
 ### Files config ###
-file.location=src/main/resources/static/file.xlsx
+file.location=/app/static/file.xlsx
