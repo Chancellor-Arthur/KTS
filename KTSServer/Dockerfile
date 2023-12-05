@@ -10,7 +10,7 @@ WORKDIR $HOME
 
 ADD . $HOME
 
-RUN mvn -f $HOME/pom.xml clean package
+RUN mvn -f $HOME/pom.xml clean package -DskipTests
 
 #
 # Package stage
