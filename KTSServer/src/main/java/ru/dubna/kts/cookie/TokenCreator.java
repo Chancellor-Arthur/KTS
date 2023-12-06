@@ -8,10 +8,10 @@ import ru.dubna.kts.models.auth.dtos.CookieInfoDto;
 @Component
 @RequiredArgsConstructor
 public class TokenCreator {
-	private final Token tokenBuilder;
+	private final CookieUtils cookieUtils;
 
 	public String createToken(CookieInfoDto cookieInfo) {
-		return tokenBuilder.addUserId(cookieInfo.getId()).addUsername(cookieInfo.getUsername()).addSignature(cookieInfo)
-				.build();
+		return new TokenBuilder(cookieUtils).addUserId(cookieInfo.getId()).addUsername(cookieInfo.getUsername())
+				.addSignature(cookieInfo).build();
 	}
 }
