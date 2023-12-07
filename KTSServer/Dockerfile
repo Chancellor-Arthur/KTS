@@ -20,8 +20,8 @@ FROM eclipse-temurin:17
 ARG JAR_FILE=/usr/app/target/*.jar
 ARG STATIC_FILE=/usr/app/target/classes/static/*.xlsx
 
-COPY --from=build $JAR_FILE /app/app.jar
-COPY --from=build $STATIC_FILE /app/static/file.xlsx
+COPY --from=build $JAR_FILE /app/server/app.jar
+COPY --from=build $STATIC_FILE /app/server/static/file.xlsx
 
 EXPOSE 8080
-ENTRYPOINT java -jar /app/app.jar
+ENTRYPOINT java -jar /app/server/app.jar

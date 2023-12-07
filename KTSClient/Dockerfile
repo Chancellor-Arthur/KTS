@@ -9,7 +9,7 @@ ARG API_URL
 ENV API_URL=${API_URL}
 
 # Install dependencies based on the preferred package manager
-COPY ./kts-client/package.json ./kts-client/pnpm-lock.yaml* ./
+COPY ./KTSClient/package.json ./KTSClient/pnpm-lock.yaml* ./
 RUN \
   if [ -f pnpm-lock.yaml ]; then npm i -g pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
@@ -20,7 +20,7 @@ RUN \
 FROM base AS builder
 
 WORKDIR /app
-COPY ./kts-client .
+COPY ./KTSClient .
 COPY --from=deps /app/node_modules ./node_modules
 
 ARG API_URL

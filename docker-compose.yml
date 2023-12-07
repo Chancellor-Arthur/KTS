@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14
+    container_name: DB
+    environment:
+      POSTGRES_DB: kts
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5434:5432'
+    networks:
+      - inner
+
+  server:
+    build:
+      context: .
+      dockerfile: ./KTSServer/Dockerfile
+    container_name: KTSServer
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    networks:
+      - inner
+
+  client:
+    build:
+      dockerfile: ./KTSClient/Dockerfile
+      context: .
+      args:
+        - API_URL=http://server:8080
+    container_name: KTSClient
+    ports:
+      - '3000:3000'
+    depends_on:
+      - server
+    networks:
+      - inner
+
+volumes:
+  postgres:
+
+networks:
+  inner:
