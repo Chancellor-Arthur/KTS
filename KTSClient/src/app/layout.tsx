@@ -24,7 +24,7 @@ export default async function RootLayout({
   const users = await serverFetchData("/users", "GET");
 
   return (
-    <html lang="ru" className="dark">
+    <html lang="ru" className="light">
       <head>
         <ColorSchemeScript />
       </head>
