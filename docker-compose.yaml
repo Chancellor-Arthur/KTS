@@ -1,0 +1,19 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./KTSServer/Dockerfile
+    container_name: KTSServer
+    ports:
+      - 8080:8080
+
+  client:
+    build:
+      dockerfile: ./kts-client/Dockerfile
+      context: .
+      args:
+        - API_URL=http://server:8080
+    ports:
+      - 3000:3000
+    depends_on:
+      - server

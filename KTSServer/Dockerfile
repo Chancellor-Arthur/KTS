@@ -8,7 +8,7 @@ ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
 
-ADD . $HOME
+ADD ./KTSServer $HOME
 
 RUN mvn -f $HOME/pom.xml clean package -DskipTests
 
